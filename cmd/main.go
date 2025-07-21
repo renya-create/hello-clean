@@ -2,27 +2,30 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"hello-clean/internal/registry"
+	"log/slog"
 	"net/http"
+	"os"
 )
 
 func main() {
-	startServer()
-}
-
-func startServer() {
-	http.HandleFunc("/", handleHello)
-
-	fmt.Println("サーバーを起動中: http://localhost:8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal("サーバ起動失敗: ", err)
+	err := run()
+	if err != nil {
+		slog.Error("Application failed to start", "error", err)
+		os.Exit(1)
 	}
 }
 
-func handleHello(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
+func run() error {
+	interactor := registry.NewInteractor()
+	appRouter := interactor.NewAppRouter()
+
+	port := ":8080"
+	slog.Info(fmt.Sprintf("Server starting on port %s", port))
+
+	if err := http.ListenAndServe(port, appRouter); err != nil {
+		return fmt.Errorf("failed to start server: %w", err)
 	}
-	fmt.Fprintf(w, "Hello, World!\n")
+
+	return nil
 }
