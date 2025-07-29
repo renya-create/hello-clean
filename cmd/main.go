@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello-clean/internal/registry"
+	"hello-clean-architecture/internal/dependency"
 	"log/slog"
 	"net/http"
 	"os"
@@ -17,13 +17,13 @@ func main() {
 }
 
 func run() error {
-	interactor := registry.NewInteractor()
-	appRouter := interactor.NewAppRouter()
+	dependencyInjection := dependency.NewInjection()
+	router := dependencyInjection.NewRouter()
 
 	port := ":8080"
 	slog.Info(fmt.Sprintf("Server starting on port %s", port))
 
-	if err := http.ListenAndServe(port, appRouter); err != nil {
+	if err := http.ListenAndServe(port, router); err != nil {
 		return fmt.Errorf("failed to start server: %w", err)
 	}
 

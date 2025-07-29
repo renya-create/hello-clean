@@ -1,29 +1,29 @@
-package controllers
+package controller
 
-import "hello-clean/internal/usecase/service"
+import "hello-clean-architecture/internal/usecase/hello"
 
 // HelloControllerインターフェースの実装
 type helloController struct {
-	helloService service.HelloService
+	helloService hello.HelloService
 }
 
 // HTTPリクエストを処理し、usecase層のサービスを呼び出すインターフェース
-type HelloController interface {
+type Hello interface {
 	GetHello() string
 }
 
-// registry層で呼ばれ、usecase層に注入される具体的なプレゼンター実装を提供
-func NewHelloController(hs service.HelloService) HelloController {
+// dependency層で呼ばれ、usecase層に注入される具体的なプレゼンター実装を提供
+func New(h hello.HelloService) Hello {
 	return &helloController{
-		helloService: hs,
+		helloService: h,
 	}
 }
 
-func (hc *helloController) GetHello() string {
+func (h *helloController) GetHello() string {
 	// usecase層のサービスを呼び出す
 	// コントローラーはビジネスロジックの具体的な実装には関心がなく、
 	// 単にサービスに処理を依頼し、結果を受け取るだけ
 
-	formattedMessage := hc.helloService.GetHelloMessage()
-	return formattedMessage
+	Message := h.helloService.GetHelloMessage()
+	return Message
 }

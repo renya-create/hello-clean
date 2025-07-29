@@ -1,19 +1,19 @@
-package presenters
+package presenter_impl
 
 import (
 	"fmt"
-	"hello-clean/internal/domain/model"
-	"hello-clean/internal/usecase/presenter"
+	"hello-clean-architecture/internal/domain/message"
+	"hello-clean-architecture/internal/usecase/presenter"
 )
 
-type helloPresenter struct{}
+type hello struct{}
 
-func NewHelloPresenter() presenter.HelloPresenter {
-	return &helloPresenter{}
+func New() presenter.Hello {
+	return &hello{}
 }
 
 // helloPresenter構造体がpresenter.HelloPresenterインターフェースを「実装」するために必要なメソッド
-func (hp *helloPresenter) FormatHelloMessage(msg *model.HelloMessage) string {
+func (hp *hello) FormatHelloMessage(msg *message.HelloMessage) string {
 	// 必要であれば、ここでJSON形式に変換したり、HTMLタグを追加可能
 	return fmt.Sprintf("%s\n", msg.GetMessage())
 }

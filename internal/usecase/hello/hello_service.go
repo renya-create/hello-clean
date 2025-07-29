@@ -1,14 +1,14 @@
-package service
+package hello
 
 import (
-	"hello-clean/internal/domain/model"
-	"hello-clean/internal/usecase/presenter"
+	"hello-clean-architecture/internal/domain/message"
+	"hello-clean-architecture/internal/usecase/presenter"
 )
 
 // ビジネスロジックの本体
 // HelloServiceインターフェースの実装
 type helloService struct {
-	helloPresenter presenter.HelloPresenter
+	helloPresenter presenter.Hello
 }
 
 // "Hello, World!"メッセージに関連するビジネスロジックを定義するインターフェース
@@ -16,9 +16,8 @@ type HelloService interface {
 	GetHelloMessage() string
 }
 
-// helloServiceの初期設定
 // helloServiceが依存するHelloPresenterの具体的な実装を外部から注入
-func NewHelloService(hp presenter.HelloPresenter) HelloService {
+func New(hp presenter.Hello) HelloService {
 	return &helloService{
 		helloPresenter: hp,
 	}
@@ -29,6 +28,6 @@ func (hs *helloService) GetHelloMessage() string {
 	// プレゼンターインターフェースを通じてメッセージを整形
 	// このサービスはプレゼンターの具体的な実装（例：JSON、プレーンテキストなど）を知らない
 
-	hello := model.NewHelloMessage("Hello, World!")
+	hello := message.New("Hello, World!")
 	return hs.helloPresenter.FormatHelloMessage(hello)
 }
