@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"hello-clean-architecture/internal/dependency"
+	"hello-clean-architecture/cmd/dependency"
 	"hello-clean-architecture/internal/infrastructure/server"
 	"log/slog"
 	"os"
