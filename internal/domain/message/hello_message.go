@@ -1,13 +1,13 @@
 package message
 
-type HelloMessage struct {
+type Hello struct {
 	message string
 }
 
-func New(msg string) *HelloMessage {
-	return &HelloMessage{message: msg}
+func New(msg string) *Hello {
+	return &Hello{message: msg}
 }
 
-func (h *HelloMessage) GetMessage() string {
+func (h *Hello) GetMessage() string {
 	return h.message
 }

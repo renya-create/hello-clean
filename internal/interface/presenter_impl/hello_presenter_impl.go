@@ -12,8 +12,7 @@ func New() presenter.Hello {
 	return &hello{}
 }
 
-// helloPresenter構造体がpresenter.HelloPresenterインターフェースを「実装」するために必要なメソッド
-func (hp *hello) FormatHelloMessage(msg *message.HelloMessage) string {
+func (hp *hello) FormatHelloMessage(msg *message.Hello) string {
 	// 必要であれば、ここでJSON形式に変換したり、HTMLタグを追加可能
 	return fmt.Sprintf("%s\n", msg.GetMessage())
 }
