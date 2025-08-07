@@ -2,10 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"hello-clean-architecture/internal/dependency"
+	"hello-clean-architecture/internal/infrastructure/server"
 	"log/slog"
-	"net/http"
 	"os"
 )
 
@@ -32,11 +31,6 @@ func run() error {
 	router := dependencyInjection.NewRouter()
 
 	port := getPort()
-	slog.Info(fmt.Sprintf("Server starting on port %s", port))
 
-	if err := http.ListenAndServe(port, router); err != nil {
-		return fmt.Errorf("failed to start server: %w", err)
-	}
-
-	return nil
+	return server.StartServer(port, router)
 }
