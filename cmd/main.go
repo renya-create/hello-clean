@@ -1,28 +1,36 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
+	"flag"
+	"hello-clean-architecture/cmd/dependency"
+	"hello-clean-architecture/internal/infrastructure/server"
+	"log/slog"
+	"os"
+)
+
+const (
+	DefaultPort = ":8080"
 )
 
 func main() {
-	startServer()
-}
-
-func startServer() {
-	http.HandleFunc("/", handleHello)
-
-	fmt.Println("サーバーを起動中: http://localhost:8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal("サーバ起動失敗: ", err)
+	err := run()
+	if err != nil {
+		slog.Error("Application failed to start", "error", err)
+		os.Exit(1)
 	}
 }
 
-func handleHello(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-	fmt.Fprintf(w, "Hello, World!\n")
+func getPort() string {
+	port := flag.String("port", DefaultPort, "Server port (e.g., :8080)")
+	flag.Parse()
+	return *port
+}
+
+func run() error {
+	dependencyInjection := dependency.NewInjection()
+	router := dependencyInjection.NewRouter()
+
+	port := getPort()
+
+	return server.StartServer(port, router)
 }
