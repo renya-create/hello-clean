@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func StartServer(port string, router *http.ServeMux) error {
+func StartServer(port string, router http.Handler) error {
 	slog.Info(fmt.Sprintf("Server starting on port %s", port))
 
 	if err := http.ListenAndServe(port, router); err != nil {

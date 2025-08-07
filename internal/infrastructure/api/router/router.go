@@ -7,7 +7,7 @@ import (
 
 // HTTPパスと、それに対応するHTTPハンドラーを紐付けるルーティングを定義
 
-func New(h handler.Hello) *http.ServeMux {
+func New(h handler.Hello) http.Handler {
 	mux := http.NewServeMux()
 	// http.HandleFuncが要求するfunc(ResponseWriter, *Request)のシグネチャと一致するため、直接登録可能
 	mux.HandleFunc("/", h.HandleHello)

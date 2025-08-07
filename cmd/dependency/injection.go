@@ -15,7 +15,7 @@ type injection struct{}
 
 // Injection はアプリケーションの主要な依存関係の構築を抽象化するインターフェース
 type Injection interface {
-	NewRouter() *http.ServeMux
+	NewRouter() http.Handler
 }
 
 // NewInjection は新しいInjectionのインスタンスを作成
@@ -24,7 +24,7 @@ func NewInjection() Injection {
 }
 
 // NewRouter はアプリケーション全体のHTTPルーターを構築
-func (i *injection) NewRouter() *http.ServeMux {
+func (i *injection) NewRouter() http.Handler {
 	return router.New(i.NewHelloHandler())
 }
 
